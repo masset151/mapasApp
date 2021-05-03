@@ -22,6 +22,10 @@ export class MenuComponent {
       nombre:'Zoom Range'
     },
     {
+      ruta:'/maps/marcadores',
+      nombre:'marcadores'
+    },
+    {
       ruta:'/maps/propiedades',
       nombre:'Propiedades'
     }
