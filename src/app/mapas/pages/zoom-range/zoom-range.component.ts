@@ -8,10 +8,10 @@ import * as mapboxgl from 'mapbox-gl';
 })
 export class ZoomRangeComponent implements AfterViewInit {
 
-  constructor() { console.log('constructor '+this.divmapa) }
+  constructor() {  }
 @ViewChild('mapa')divmapa!:ElementRef
   mapa!:mapboxgl.Map;
-  zoomLevel:number = 18;
+  zoomLevel:number = 17;
 
   ngAfterViewInit(): void {
    
@@ -22,17 +22,24 @@ export class ZoomRangeComponent implements AfterViewInit {
      style:'mapbox://styles/mapbox/streets-v11',
      center:[-5.994212841007654,37.38914690571648],
      zoom:this.zoomLevel
-   })
+   });
+
+   this.mapa.on('zoom', (ev) => {
+    console.log('zoom');
+    const zoomActual = this.mapa.getZoom();
+    this.zoomLevel = zoomActual
+
+   });
     
   }
   zoomIn(){
     this.mapa.zoomIn();
-    this.zoomLevel = this.mapa.getZoom()
+   
   }
 
   zoomOut(){
     this.mapa.zoomOut();
-    this.zoomLevel = this.mapa.getZoom()
+    
   }
 
 }
