@@ -3,9 +3,14 @@
   <li class="list-group-item list-group-item-info" (click)="agregarMarcador()">
       + Agregar
   </li>
-  <li class="list-group-item" *ngFor="let mar of marcadores;let i = index"
+  <li class="list-group-item" 
+  *ngFor="let mar of marcadores;let i = index"
+  
   [ngStyle]="{
     'background-color':mar.color
-  }"(click)="irMarcador(mar)" >Marcador {{i+1}}</li>
+  }"(click)="irMarcador(mar)"
+  (dblclick)="borrarMarcador(i)" >Marcador {{i+1}}
+  
+</li>
   
 </ul>

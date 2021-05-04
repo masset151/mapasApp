@@ -66,6 +66,10 @@ export class MarcadoresComponent implements AfterViewInit {
     })
 
     this.guardarMarcadores()
+
+    NuevoMarcador.on('dragend',() => {
+      this.guardarMarcadores();
+    });
   }
 
   guardarMarcadores(){
@@ -108,10 +112,20 @@ export class MarcadoresComponent implements AfterViewInit {
       this.marcadores.push({
         marcador:newMarker,
         color:m.color
-      })
+      });
+
+      newMarker.on('dragend',() => {
+        this.guardarMarcadores();
+      });
 
     })
+    
+  }
 
+  borrarMarcador(i:number){
+    this.marcadores[i].marcador?.remove()
+    this.marcadores.splice(i,1)
+    this.guardarMarcadores()
   }
 
 
