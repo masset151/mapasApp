@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef,ViewChild } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 
 interface MarcadorColor {
   color:string;
-  marcador: mapboxgl.Marker
+  marcador?: mapboxgl.Marker;
+  centro?:[number,number];
 }
 
 @Component({
@@ -29,6 +30,8 @@ export class MarcadoresComponent implements AfterViewInit {
       center: this.center,
       zoom: this.zoomLevel
     });
+
+    this.leerMarcador()
 
     const markerHtml:HTMLElement = document.createElement('div');
     markerHtml.innerHTML = 'GiraldaTV';
@@ -61,14 +64,54 @@ export class MarcadoresComponent implements AfterViewInit {
       color,
       marcador:NuevoMarcador
     })
+
+    this.guardarMarcadores()
   }
 
   guardarMarcadores(){
+
+    const lngLatArr:MarcadorColor[] = []
+
+    this.marcadores.forEach(m =>{
+      const color = m.color;
+      const {lng,lat} = m.marcador!.getLngLat();
+
+      lngLatArr.push({
+        color:m.color,
+        centro:[lng,lat]
+      });
+    });
+
+    localStorage.setItem('marcadores', JSON.stringify(lngLatArr));
+
+
     
   }
 
   leerMarcador(){
-    
+
+    if(!localStorage.getItem('marcadores')){
+      return;
+    }
+
+    const lngLatArr: MarcadorColor[] =JSON.parse(localStorage.getItem('marcadores')!);
+
+    lngLatArr.forEach(m=> {
+      const newMarker = new mapboxgl.Marker({
+        color:m.color,
+        draggable:true
+      })
+
+      .setLngLat(m.centro!)
+      .addTo(this.mapa)
+
+      this.marcadores.push({
+        marcador:newMarker,
+        color:m.color
+      })
+
+    })
+
   }
 
 
