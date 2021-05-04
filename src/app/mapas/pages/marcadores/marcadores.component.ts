@@ -42,8 +42,10 @@ export class MarcadoresComponent implements AfterViewInit {
     
   }
 
-  irMarcador(){
-    //this.mapa.flyTo()
+  irMarcador(marcador:MarcadorColor){
+    this.mapa.flyTo({
+      center:marcador.marcador.getLngLat()
+    })
   }
 
   agregarMarcador(){
@@ -59,6 +61,14 @@ export class MarcadoresComponent implements AfterViewInit {
       color,
       marcador:NuevoMarcador
     })
+  }
+
+  guardarMarcadores(){
+    
+  }
+
+  leerMarcador(){
+    
   }
 
 
